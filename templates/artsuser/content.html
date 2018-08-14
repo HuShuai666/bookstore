@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load pagination_tags %}
+
+</head>
+<body>
+
+<a href="#" onclick="javascript:history.back(-1);">返回</a>
+<a style="font-size: large">{% for art in arts %}
+    <h1>{{ art.title }}</h1>
+    <p><img src="{{ art.page_img }}" width="150"></p>
+{% endfor %}
+
+    {% for foo in chap %}
+        <h3>{{ foo.title }}</h3><br>
+        {{ foo.cha_content }}
+    {% endfor %}
+
+</a></br></br>
+
+<a style="color: red">
+    {% if coms %}
+        {% autopaginate coms 5 %}
+        {% for foo in coms %}
+            <li>评论名称:{{ name }}</li>
+            <span>&#12288&#8194评论标题:{{ foo.title }}</span><br>
+            <span>&#12288&#8194评论内容:{{ foo.content }}</span></br></br>
+
+        {% endfor %}
+        {% paginate %}
+    {% else %}
+        <h6>暂无评价</h6>
+    {% endif %}
+
+</a>
+
+<p><h1><a href="{% url 'add_car' %}">进入购物车</a></h1></p>
+    <form enctype="multipart/form-data" action="" method="post" id ="tab">
+        {% csrf_token %}
+        {% for art in arts %}
+        <input name = "aid" value="{{ art.aid }}" style="display: none">
+        <input name = "username" value="{{ name }}" style="display: none">
+        商品价格:<span></span><span class="price">{{ art.price }}</span><br>
+        {% endfor %}
+{#        <input class="min" name="" type="button" value="-" />#}
+        选择数量:<input class="text_box" name="num" type="number" value="1" />
+{#        <input class="add" name="" type="button" value="+" />#}
+        <p>总价：<label id="total"></label></p>
+        <input type="submit" value="加入购物车" />
+    </form>
+
+
+
+
+<form action="{% url 'art' %}" method="post">
+    {% csrf_token %}
+    <p>
+        {% for t in arts %}
+            <input type="hidden" name="ac_id" value="{{ t.aid }}">
+        {% endfor %}
+    </p>
+    <p>评论名称:{{ name }}</p>
+    <p>评论标题:<input type="text" name="title"></p>
+    <p>评论内容:<textarea name="content"></textarea>
+    </p>
+    <input type="submit" value="提交评论">
+</form>
+
+
+</body>
+</html>

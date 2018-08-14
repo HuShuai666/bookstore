@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p><h3><a href="http://127.0.0.1:8000/artuser/index">首页</a></h3></p>
+{% for shop in shops %}
+    <p style="color: red">订单号:{{ shop.order.order_code }}</p>
+    <p><h1>{{ shop.shop.title }}</h1></p>
+    <p><img src="{{ shop.shop.page_img }}" width="50"></p>
+    <p>购买数量:{{ shop.number }}</p>
+    <p>收件人:{{ shop.order.receiver }}</p>
+    <p>收件地址:{{ shop.order.address }}</p>
+{% endfor %}
+
+
+</body>
+</html>

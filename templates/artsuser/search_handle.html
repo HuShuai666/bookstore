@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    {% if arts %}
+        {% for art in arts %}
+            <li>{{ art.title }}</li>
+            <span><img src="{{ img }}" width="50"></span><br>
+        {% endfor %}
+    {% endif %}
+
+
+
+</table>
+</body>
+
+</html>

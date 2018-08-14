@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <a>用户名：<input type="text" name="name" placeholder="用户名（长度为6-20个字符）"></a><br>
+    <a>密&#12288码：<input type="password" name="password" placeholder="密码（长度为6-20个字符）"></a><br>
+    <a> 邮&#12288箱：<input type="text" name="email"></a><br>
+    <a> 头&#12288像:<input type="file" name="icon" accept="image/*"></a><br>
+{#    <a> 等&#12288级：<input type="checkbox" value="1" name="member">普通会员</a><br>#}
+    <a >等&#12288级<select name="member">
+        <option value="1">普通会员</option>
+        <option value="2">VIP会员</option>
+        <option value="3">黄金会员</option>
+    </select></a><br>
+    <a><input type="submit" value="注册"></a>
+
+</form>
+
+</body>
+</html>

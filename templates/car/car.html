@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script>
+        $(function(){
+            $(".add").click(function(){
+                var t = $(this).parent().find($(".number"));
+                t.val(parseInt(t.val())+1);
+                setTotal();
+            })
+
+            $(".min").click(function(){
+                var t = $(this).parent().find($(".number"));
+                t.val(parseInt(t.val())-1);
+                if(parseInt(t.val())<0){
+                    t.val(0);
+                }
+                setTotal()
+            })
+            function setTotal(){
+                var sum = 0;
+                $(".all_price").each(function(){
+
+                    var num = parseInt($(this).find($(".number")).val());
+                    var price = parseFloat($(this).find($(".price")).text());
+                    sum += num*price;
+                })
+                $("#total").html(sum.toFixed(2));
+            }
+            setTotal();
+
+        })
+    </script>
+</head>
+
+<body>
+<a href="#" onclick="javascript:history.back(-1);">返回</a>
+<form method="post" enctype="multipart/form-data" action="{% url 'order' %}" >
+    {% csrf_token %}
+<h1 align="center">购物车详情</h1>
+<table id="tab" height="260" width="800" cellspacing="0" border="1" align="center" cellpadding="0">
+    <tr align="center">
+        <td>商品名称</td>
+        <td>商品单价</td>
+        <td>商品数量</td>
+        <td>合计</td>
+    </tr>
+    {% for shop in shops %}
+        <tr align="center">
+            <td align="center" >{{ shop.shop.title }}</td>
+            <td align="center">
+                <span>单价:</span><span class="price">{{ shop.shop.price }}</span>
+            </td>
+            <td  class="all_price" align="center">
+                <span class="price" style="display: none">{{ shop.shop.price }}</span>
+                <input class="min" name="" type="button" value="-" />
+                <input class="number" name="number{{ shop.shop_id }}" type="text" value={{ shop.number }} />
+                <input class="add" name="" type="button" value="+" />
+            </td>
+            <td><a href="{% url 'delete' %}?id={{ shop.shop_id }}">删除</a></td>
+        </tr>
+    {% endfor %}
+    <tr align="center">
+        <td colspan="3">总价：</td>
+        <td><p><label id="total"></label></p></td>
+    </tr>
+</table>
+<input type="submit" value="确认购买" />
+</form>
+
+</body>
+</html>

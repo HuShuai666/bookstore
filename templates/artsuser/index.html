@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+
+{% if name == "请登录" %}
+    <a href="{% url 'login' %}">登录</a>
+    <a href="{% url 'register' %}">注册</a>
+{% else %}
+    <span>{{ name }}</span> <span><img src="{{ img }}" width="50"></span>
+    <p><h1><a href="http://127.0.0.1:8000/artuser/check_order">查看订单详情</a></h1></p>
+    <a href="{% url 'loginout' %}">登出</a><br>
+{% endif %}
+<h1>首页</h1>
+<form action="{% url 'search' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="keyword">
+    <input type="submit" value="搜索">
+</form>
+{% for tag in tags %}
+    <a href='{% url 'index' %}?t={{ tag.tid }}'>{{ tag.tag }}</a>
+{% endfor %}
+
+{% load pagination_tags %}
+{% autopaginate arts 10 %}
+<table style="padding: 15px">
+    {% for a in arts %}
+        <tbody style="text-align: center">
+        <tr>
+            <td rowspan="2"><a href="http://127.0.0.1:8000/artuser/show_detail?aid={{ a.aid }}"><img src="{{ a.page_img }}" width="100"></a></td>
+            <td>&emsp;&emsp;</td>
+            <td style="color: green;text-align: left">{{ a.title }} &emsp; &emsp; &emsp;<span style="color: black">作者:</span>{{ a.des }} &emsp; &emsp; &emsp; <span style="color: black">小说类别:</span>{{ a.tags.tag }}</td>
+        </tr>
+        <tr>
+            <td>&emsp;&emsp;</td>
+            <td colspan="2">简介:{{ a.content }}</td>
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% paginate %}
+
+
+
+
+</body>
+</html>
+
+
+
+{#<p style="color: red">总页数{{ paginator.num_pages }}</p>#}
+{##}
+{#<a href="{% url 'index' %}?page=1&t={{ t }}">首页</a>#}
+{#{% if pages.has_previous %}#}
+{#    <a href="{% url 'index' %}?page={{ pages.previous_page_number }}&t={{ t }}">上页</a>#}
+{#    {% else %}#}
+{#    <a >上页</a>#}
+{#{% endif %}#}
+{#{% for i in paginator.page_range %}#}
+{#{% if i <= pages.number|add:5 and i >= pages.number|add:-5 %}#}
+{#    {% if i != pages.number %}#}
+{#        <a href="{% url 'index' %}?page={{ i }}&t={{ t }}">{{ i }}</a>#}
+{#        {% else %}#}
+{#        <a style="color: red">{{ i }}</a>#}
+{#        {% endif %}#}
+{##}
+{#{% endif %}#}
+{#{% endfor %}#}
+{#{% if pages.has_next %}#}
+{#    <a href="{% url 'index' %}?page={{ pages.next_page_number }}&t={{ t }}">下页</a>#}
+{#    {% else %}#}
+{#    <a>下页</a>#}
+{##}
+{#{% endif %}#}
+{#<a href="{% url 'index' %}?page={{ paginator.num_pages }}&t={{ t }}">尾页</a>#}
+
+
+{#{% load pagination_tags %}#}
+{#{% autopaginate art_all 10 %}#}
+{#{% for foo in art_all %}#}
+{#    <a>{{ foo.title }}</a>#}
+{#    <a >{{ foo.des }}</a>#}
+{#    <a href="http://127.0.0.1:8000/artuser/art?aid={{ foo.aid }}"><img src="{{ foo.page_img.url }}" width="50"></a><br>#}
+{#{% endfor %}#}
+{#{% paginate %}#}
